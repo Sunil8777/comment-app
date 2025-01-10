@@ -14,7 +14,7 @@ export default function Sidebaritem({href,label,icon:Icon,onClick}:propsValue) {
       </div>
       <div className='gap-4 p-4 rounded-full hidden lg:flex item-center hover:bg-slate-300 hover:bg-opacity-10 cursor-pointer'>
         <Icon size={24} color='white'/>
-        <p>{label}</p>
+        <p className='text-white'>{label}</p>
       </div>
     </div>
   )
