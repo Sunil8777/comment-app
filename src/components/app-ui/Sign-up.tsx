@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { IoCloseSharp } from "react-icons/io5";
+import {useAuthStore, useClickStore} from "@/app/store/store";
 
 const formSchema = z.object({
   email: z.string(),
@@ -33,7 +35,9 @@ const formSchema = z.object({
     .max(15, "maximum 15 character"),
 });
 
-export function ProfileForm() {
+export function SignUp() {
+  const {toggle} = useClickStore()
+  const {toggleAuth} = useAuthStore()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,8 +53,9 @@ export function ProfileForm() {
   return (
     <div className="flex justify-center items-center h-screen z-50 relative">
       <div className="rounded-lg min-w-[30%] min-h-[43%] p-5 bg-red-300">
-        <div className="mb-7">
+        <div className="mb-7 flex items-center justify-between">
           <p className="font-semibold text-xl">Create an account</p>
+          <IoCloseSharp size={20} onClick={toggle}/>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -114,7 +119,7 @@ export function ProfileForm() {
         </Form>
         <div className="flex mt-3 text-[14px]">
             <p className="">Already have an account?</p>
-            <Link href="/sign-up" className="font-semibold text-white">Sign in</Link>
+            <p onClick={toggleAuth} className="font-semibold text-white cursor-pointer">Log in</p>
         </div>
       </div>
     </div>
