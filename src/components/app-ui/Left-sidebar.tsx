@@ -36,7 +36,7 @@ export default function Leftsidebar() {
                     )
                 }
                 <Sidebaritem onClick={()=>{}} icon={BiLogOut} label="Logout"/>
-                <SideBarTweet/>
+                <SideBarTweet />
             </div>
         </div>
     </div>
