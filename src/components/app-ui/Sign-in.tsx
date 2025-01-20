@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IoCloseSharp } from "react-icons/io5";
-import {useAuthStore, useClickStore, useCurrentUser} from "@/app/store/store";
+import {useAuthStore, useClickStore} from "@/app/store/store";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -27,9 +27,7 @@ const formSchema = z.object({
 export function SignIn() {
   const {toggle} = useClickStore()
   const {toggleAuth} = useAuthStore()
-  const router = useRouter();
-  const {user,getCurrentUser} = useCurrentUser()
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +39,6 @@ export function SignIn() {
     
     try {
       const result = await signIn('credentials', {
-        redirect:false,
         email: values.email,
         password: values.password,
       });
@@ -50,7 +47,6 @@ export function SignIn() {
         toast.error('Invalid credentials');
       } else {
         toast.success('Successfully logged in');
-        getCurrentUser()
         toggle()
       }
     } catch (error) {

@@ -10,7 +10,7 @@ export default function Rightsidebar() {
   if (user?.length === 0) {
     return null;
   }
-  console.log(user);
+  
   return (
     <div className="min-w-[30%] border-x-[1px] border-neutral-800 relative">
       <div className="absolute px-6 py-4 hidden lg:block ">

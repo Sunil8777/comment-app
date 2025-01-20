@@ -6,38 +6,13 @@ import Sidebaritem from "./Sidebaritem";
 import { BiLogOut } from "react-icons/bi";
 import SideBarTweet from "./SideBarTweet";
 import { signOut } from "next-auth/react";
-import axios from "axios";
-import { useCurrentUser } from "@/app/store/store";
+import useCurrentUser from "@/app/hooks/useCurrentUser";
 
 export default function Leftsidebar() {
-  const [currentuser,setUser] = useState(undefined)
-  const {user} = useCurrentUser()
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("/api/currentUser");
-        if (response.status === 200) {
-          setUser(response.data.message);
-        } else if (response.status === 404) {
-          console.error('User not found');
-          setUser(undefined);
-        } else {
-          console.error('An error occurred');
-          setUser(undefined);
-        }
-      } catch (error) {
-        setUser(undefined)
-      }
-    };
-    fetchUser();
-  }, []);
+  const {currentUser} = useCurrentUser()
 
   const handleLogOut = () =>{
-    signOut(
-      {redirect:false}
-    )
-    setUser(undefined)
+    signOut()
   }
   const items = [
     {
@@ -71,7 +46,7 @@ export default function Leftsidebar() {
                 }
                 
                 {
-                  (currentuser || user) && <Sidebaritem onClick={handleLogOut} icon={BiLogOut} label="Logout"/>
+                  (currentUser) && <Sidebaritem onClick={handleLogOut} icon={BiLogOut} label="Logout"/>
                 }
                 <SideBarTweet />
             </div>

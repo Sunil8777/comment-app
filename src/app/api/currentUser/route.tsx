@@ -16,7 +16,7 @@ export async function GET(){
         return Response.json(
             {
                 success:false,
-                message:"Unable to get the session"
+                message:null
             },
             {
                 status:404

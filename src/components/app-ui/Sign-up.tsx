@@ -16,11 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IoCloseSharp } from "react-icons/io5";
-import {useAuthStore, useClickStore, useCurrentUser} from "@/app/store/store";
+import {useAuthStore, useClickStore} from "@/app/store/store";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string(),
@@ -41,7 +40,6 @@ const formSchema = z.object({
 export function SignUp() {
   const {toggle} = useClickStore()
   const {toggleAuth} = useAuthStore()
-  const {getCurrentUser} = useCurrentUser()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,14 +58,12 @@ export function SignUp() {
       toast.success('Account created')
 
       signIn('credentials',{
-        redirect:false,
         email,
         password
       },
     )
 
     toggle()
-    getCurrentUser()
 
     } catch (error) {
       toast.error('Something went wrong')

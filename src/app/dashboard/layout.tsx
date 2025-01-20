@@ -13,27 +13,23 @@ export default function dashBoardLayout({
   children: React.ReactNode;
   session: any;
 }>) {
-    const { isClick } = useClickStore();
-    const { login } = useAuthStore();
+  const { isClick } = useClickStore();
+  const { login } = useAuthStore();
   return (
-    <html lang="en">
-        <body >
-         <div className="flex h-screen bg-black ">
-               {isClick &&
-                 (login ? (
-                   <div className="absolute inset-0 z-50 bg-black bg-opacity-50 ">
-                     <SignIn />
-                   </div>
-                 ) : (
-                   <div className="absolute inset-0 z-50 bg-black bg-opacity-50 ">
-                     <SignUp />
-                   </div>
-                 ))}
-               <Leftsidebar />
-               {children}
-               <Rightsidebar />
-             </div>
-        </body>
-    </html>
+    <div className="flex h-screen bg-black ">
+      {isClick &&
+        (login ? (
+          <div className="absolute inset-0 z-50 bg-black bg-opacity-50 ">
+            <SignIn />
+          </div>
+        ) : (
+          <div className="absolute inset-0 z-50 bg-black bg-opacity-50 ">
+            <SignUp />
+          </div>
+        ))}
+      <Leftsidebar />
+      {children}
+      <Rightsidebar />
+    </div>
   );
 }
