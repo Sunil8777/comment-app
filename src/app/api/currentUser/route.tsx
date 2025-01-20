@@ -19,7 +19,7 @@ export async function GET(){
                 message:"Unable to get the session"
             },
             {
-                status:500
+                status:404
             }
         )
     }

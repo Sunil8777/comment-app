@@ -12,7 +12,7 @@ type auth = {
 };
 
 type currentUser = {
-  user: object;
+  user: undefined;
   getCurrentUser: () => Promise<void>;
 };
 
@@ -27,12 +27,14 @@ const useAuthStore = create<auth>()((set) => ({
 }));
 
 const useCurrentUser = create<currentUser>()((set) => ({
-  user: {},
+  user: undefined,
   getCurrentUser: async () => {
     try {
       const response = await axios.get("/api/currentUser");
       if (response.status === 200) {
-        set({user: response.data.message})
+        set({ user: response.data.message });
+      } else {
+        set({ user: undefined });
       }
     } catch (error) {
       console.error("Error in fetching the user");

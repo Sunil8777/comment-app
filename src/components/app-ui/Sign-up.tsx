@@ -15,9 +15,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { IoCloseSharp } from "react-icons/io5";
-import {useAuthStore, useClickStore} from "@/app/store/store";
+import {useAuthStore, useClickStore, useCurrentUser} from "@/app/store/store";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string(),
@@ -25,7 +28,7 @@ const formSchema = z.object({
     .string()
     .min(2, "must contain 8 character")
     .max(15, "maximum limit is 15 character"),
-  realname: z
+  name: z
     .string()
     .min(3, "Atleast contain 3 character")
     .max(15, "maximum limit is 15 character"),
@@ -38,17 +41,37 @@ const formSchema = z.object({
 export function SignUp() {
   const {toggle} = useClickStore()
   const {toggleAuth} = useAuthStore()
+  const {getCurrentUser} = useCurrentUser()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
-      realname: "",
+      name: "",
       username: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await axios.post('api/register',values)
+      const {email,password} = values
+
+      toast.success('Account created')
+
+      signIn('credentials',{
+        redirect:false,
+        email,
+        password
+      },
+    )
+
+    toggle()
+    getCurrentUser()
+
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
   }
   return (
     <div className="flex justify-center items-center h-screen z-50 relative">
@@ -73,7 +96,7 @@ export function SignUp() {
             />
             <FormField
               control={form.control}
-              name="realname"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

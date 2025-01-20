@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsBellFill, BsHouseFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import Sidebarlogo from "./Sidebarlogo";
 import Sidebaritem from "./Sidebaritem";
 import { BiLogOut } from "react-icons/bi";
 import SideBarTweet from "./SideBarTweet";
+import { signOut } from "next-auth/react";
+import axios from "axios";
+import { useCurrentUser } from "@/app/store/store";
 
 export default function Leftsidebar() {
+  const [currentuser,setUser] = useState(undefined)
+  const {user} = useCurrentUser()
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("/api/currentUser");
+        if (response.status === 200) {
+          setUser(response.data.message);
+        } else if (response.status === 404) {
+          console.error('User not found');
+          setUser(undefined);
+        } else {
+          console.error('An error occurred');
+          setUser(undefined);
+        }
+      } catch (error) {
+        setUser(undefined)
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleLogOut = () =>{
+    signOut(
+      {redirect:false}
+    )
+    setUser(undefined)
+  }
   const items = [
     {
       label: "Home",
@@ -17,11 +49,13 @@ export default function Leftsidebar() {
       label: "Notification",
       href: "/notification",
       icon: BsBellFill,
+      auth:true
     },
     {
       label: "Profile",
       href: "/user/123",
       icon: FaUser,
+      auth:true
     },
   ];
   return (
@@ -31,11 +65,14 @@ export default function Leftsidebar() {
                 <Sidebarlogo/>
                 {
                     items.map((item)=>(
-                        <Sidebaritem  key={item.href} href={item.href} icon={item.icon} label={item.label} />
+                        <Sidebaritem  key={item.href} href={item.href} icon={item.icon} label={item.label} auth={item.auth}/>
                     )
                     )
                 }
-                <Sidebaritem onClick={()=>{}} icon={BiLogOut} label="Logout"/>
+                
+                {
+                  (currentuser || user) && <Sidebaritem onClick={handleLogOut} icon={BiLogOut} label="Logout"/>
+                }
                 <SideBarTweet />
             </div>
         </div>
