@@ -10,7 +10,8 @@ interface AvatarProps {
 }
 export default function Avatar({ userId, isLarge, hasBorder }: AvatarProps) {
   const {data} = useUser(userId)
-  const profileImage = data?.message?.profileImage
+  const profileImage = data?.message?.user.profileImage
+
   const router = useRouter()
 
   const onClick = useCallback((event:any)=>{
@@ -32,7 +33,7 @@ export default function Avatar({ userId, isLarge, hasBorder }: AvatarProps) {
          }}
          alt="Avatar"
          onClick={onClick}
-         src={profileImage?profileImage:"/image/placeholder.png" }
+         src={profileImage? profileImage:"/image/placeholder.png" }
      />           
     </div>
   );

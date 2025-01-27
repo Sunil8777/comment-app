@@ -4,6 +4,7 @@ import {format} from 'date-fns'
 import { useMemo } from "react"
 import { Button } from "../ui/button"
 import { BiCalendar } from "react-icons/bi"
+import { useEditModel } from "@/app/store/store"
 
 interface UserBioProps{
     userId:string
@@ -11,6 +12,7 @@ interface UserBioProps{
 export default function UserBio({userId}:UserBioProps) {
     const {data:fetchUser} = useUser(userId)
     const {currentUser} = useCurrentUser()
+    const {toggleEditModel} = useEditModel()
 
     const createdAt = useMemo(()=>{
         if(!fetchUser?.message.user.createdAt){
@@ -18,12 +20,14 @@ export default function UserBio({userId}:UserBioProps) {
         }
         return format(new Date(fetchUser?.message.user.createdAt),'MMMM yyyy')
     },[fetchUser?.message.user.createdAt])
+
+    
   return (
     <div className="border-b-[1px] border-neutral-800 pb-4">
       <div className="flex justify-end p-2">
         {
             currentUser?.id === userId?(
-              <Button  className="px-4 py-2 rounded-full " variant="secondary">Edit</Button>
+              <Button  className="px-4 py-2 rounded-full " variant="secondary" onClick={toggleEditModel}>Edit</Button>
             ):(
               <Button  className="px-4 py-2 rounded-full" variant='secondary'>Follow</Button>
             )

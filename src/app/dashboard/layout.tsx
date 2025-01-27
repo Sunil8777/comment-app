@@ -5,6 +5,7 @@ import React from "react";
 import { useAuthStore, useClickStore } from "../store/store";
 import { SignIn } from "@/components/app-ui/Sign-in";
 import { SignUp } from "@/components/app-ui/Sign-up";
+import { EditModel } from "@/components/app-ui/EditModel";
 
 export default function dashBoardLayout({
   children,
@@ -17,6 +18,7 @@ export default function dashBoardLayout({
   const { login } = useAuthStore();
   return (
     <div className="flex h-screen bg-black ">
+      
       {isClick &&
         (login ? (
           <div className="absolute inset-0 z-50 bg-black bg-opacity-50 ">

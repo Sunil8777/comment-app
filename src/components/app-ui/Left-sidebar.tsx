@@ -28,7 +28,7 @@ export default function Leftsidebar() {
     },
     {
       label: "Profile",
-      href: "/user/123",
+      href: `dashboard/users/${currentUser?.id}`,
       icon: FaUser,
       auth:true
     },

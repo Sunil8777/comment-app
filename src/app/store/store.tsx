@@ -10,6 +10,11 @@ type auth = {
   toggleAuth: () => void;
 };
 
+type EditModel={
+  isOpen:boolean,
+  toggleEditModel: () => void,
+}
+
 const useClickStore = create<Store>()((set) => ({
   isClick: false,
   toggle: () => set((state) => ({ isClick: !state.isClick })),
@@ -20,5 +25,8 @@ const useAuthStore = create<auth>()((set) => ({
   toggleAuth: () => set((state) => ({ login: !state.login })),
 }));
 
-
-export { useClickStore, useAuthStore };
+const useEditModel = create<EditModel>()((set) => ({
+  isOpen: false,
+  toggleEditModel: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+export { useClickStore, useAuthStore, useEditModel };
