@@ -1,6 +1,7 @@
 'use client'
 import useUser from '@/app/hooks/useUser'
 import Header from '@/components/app-ui/Header'
+import PostFeed from '@/components/app-ui/PostFeed'
 import UserBio from '@/components/app-ui/UserBio'
 import UserHero from '@/components/app-ui/UserHero'
 import { useParams } from 'next/navigation'
@@ -25,6 +26,7 @@ export default function userProfile() {
       <Header label={profileName} showBackArrow/>
       <UserHero userId={userId}/>
       <UserBio userId={userId}/>
+      <PostFeed userId={userId}/>
     </div>
   )
 }

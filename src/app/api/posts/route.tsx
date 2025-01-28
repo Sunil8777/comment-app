@@ -5,7 +5,7 @@ export async function GET(req: Response) {
   try {
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
-
+    
     if (userId) {
       const userPost = await prisma.post.findMany({
         where: {
@@ -26,25 +26,24 @@ export async function GET(req: Response) {
         },
         { status: 200 }
       );
-    } else {
-      const allPost = await prisma.post.findMany({
-        include: {
-          user: true,
-          comments: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
-
-      return Response.json(
-        {
-          success: true,
-          message: allPost,
-        },
-        { status: 200 }
-      );
     }
+    const allPost = await prisma.post.findMany({
+      include: {
+        user: true,
+        comments: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return Response.json(
+      {
+        success: true,
+        message: allPost,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return Response.json(

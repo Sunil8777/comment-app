@@ -6,13 +6,13 @@ import useCurrentUser from "@/app/hooks/useCurrentUser";
 import Avatar from "./Avatar";
 import toast from "react-hot-toast";
 import axios from "axios";
-import usePosts from "@/app/hooks/usePost";
+import {usePosts} from "@/app/hooks/usePosts";
 
 interface formProps {
   placeholder: string;
   isComment?: boolean;
 }
-export default function Form({ placeholder, isComment}: formProps) {
+export default function Form({ placeholder, isComment }: formProps) {
   const { toggle } = useClickStore();
   const { currentUser } = useCurrentUser();
   const { mutate: allUserPost } = usePosts();
@@ -23,7 +23,6 @@ export default function Form({ placeholder, isComment}: formProps) {
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
-
       await axios.post("api/posts", { userPost });
       setUserPost("");
       allUserPost();
@@ -32,7 +31,7 @@ export default function Form({ placeholder, isComment}: formProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [allUserPost,userPost]);
+  }, [allUserPost, userPost]);
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
@@ -43,6 +42,7 @@ export default function Form({ placeholder, isComment}: formProps) {
           </div>
           <div className="w-full">
             <textarea
+            value={userPost}
               onChange={(e) => setUserPost(e.target.value)}
               disabled={isLoading}
               className="disable:opacity-80 peer resize-none mt-3 w-full bg-black ring-0 outline-none text-[20px] placeholder-neutral-500 text-white "
