@@ -1,9 +1,9 @@
 
 import prisma from "@/lib/prismadb";
 
-export async function GET(req:Request,{ params }: { params: { userId: string } }) {
+export async function GET(req:Request, {params} : { params: { userId: string } }) {
   
-const {userId} = params
+const {userId} =  params
 
   try {
     if (!userId) {

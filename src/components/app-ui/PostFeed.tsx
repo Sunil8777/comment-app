@@ -7,7 +7,7 @@ interface postFeedProps {
 }
 export default function PostFeed({ userId }: postFeedProps) {
   const { post: posts = [] } = usePosts(userId);
-  console.log(posts)
+  
   return (
     <>
       {posts.map((post: Record<string, any>) => (
