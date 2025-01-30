@@ -16,22 +16,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
-    let updatedFollowingIds = [...(user?.followingIds || [])]
-
-    updatedFollowingIds.push(userId)
-
     await prisma.user.update({
       where: {
         id: currentuser.id,
       },
       data: {
-        followingIds:updatedFollowingIds
+        followingIds:{
+          push: userId
+        }
       },
     });
     return Response.json(
@@ -69,7 +61,7 @@ export async function DELETE(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: currentuser.id,
       },
     });
 
