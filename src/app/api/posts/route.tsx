@@ -5,7 +5,7 @@ export async function GET(req: Response) {
   try {
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
-    
+
     if (userId) {
       const userPost = await prisma.post.findMany({
         where: {
@@ -45,14 +45,10 @@ export async function GET(req: Response) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
-    return Response.json(
-      {
-        success: false,
-        message: error,
-      },
-      { status: 500 }
-    );
+    return Response.json({
+      success:false,
+      message:"error"
+    },{status:500})
   }
 }
 
@@ -76,7 +72,7 @@ export async function POST(req: Response) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return Response.json(
       {
         success: false,

@@ -18,7 +18,7 @@ const useFollow = (userId: string) => {
 
   const toggleFollow = useCallback(async () => {
     if (!currentUser) {
-      return toggle;
+      return toggle();
     }
 
     try {

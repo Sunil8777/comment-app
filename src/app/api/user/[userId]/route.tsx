@@ -3,7 +3,7 @@ import prisma from "@/lib/prismadb";
 
 export async function GET(req:Request, {params} : { params: { userId: string } }) {
   
-const {userId} =  params
+const {userId} = await params
 
   try {
     if (!userId) {

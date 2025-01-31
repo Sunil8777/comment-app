@@ -26,6 +26,7 @@ export default function Form({ placeholder, isComment }: formProps) {
       await axios.post("api/posts", { userPost });
       setUserPost("");
       allUserPost();
+      toast.success("Done Tweet")
     } catch (error) {
       toast.error("Something went wrong");
     } finally {

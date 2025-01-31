@@ -65,6 +65,15 @@ export async function DELETE(req: Request) {
       },
     });
 
+    if (!user) {
+      return Response.json(
+        {
+          sucess: false,
+          message: "Invalid request",
+        },
+        { status: 401 }
+      );
+    }
     let updatedFollowingIds = [...(user?.followingIds || [])]
 
     updatedFollowingIds = updatedFollowingIds.filter(id=>id !== userId)
