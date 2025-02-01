@@ -3,31 +3,33 @@ import Avatar from "./Avatar";
 import { AiFillLike, AiOutlineLike, AiOutlineMessage } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNowStrict } from "date-fns";
-import { useClickStore } from "@/app/store/store";
 import useLike from "@/app/hooks/useLike";
 interface postItemProps {
   data: Record<string, any>;
 }
 export default function PostItem({ data }: postItemProps) {
   const router = useRouter();
-  const { isLiked, toggleLiked } = useLike(data.id);
+  const { isLiked, toggleLiked } = useLike(data.id, data.userId);
 
   const goToUser = useCallback(
     (e: any) => {
       e.stopPropagation();
       router.push(`dashboard/users/${data.user.id}`);
     },
-    [router, data.user.id]
+    [router, data]
   );
 
   const goToPost = useCallback(() => {
-    router.push(`posts/${data.id}`);
+    router.push(`dashboard/posts/${data.id}`);
   }, [router, data.id]);
 
-  const onLike = useCallback((e: any) => {
-    e.stopPropagation();
-    toggleLiked()
-  }, [toggleLiked]);
+  const onLike = useCallback(
+    (e: any) => {
+      e.stopPropagation();
+      toggleLiked();
+    },
+    [toggleLiked]
+  );
 
   const createdAt = useMemo(() => {
     if (!data.createdAt) {
@@ -36,7 +38,9 @@ export default function PostItem({ data }: postItemProps) {
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data?.createdAt]);
   return (
-    <div className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition">
+    <div
+      className="border-b-[1px] border-neutral-800 p-5 cursor-pointer hover:bg-neutral-900 transition"
+      onClick={goToPost}>
       <div className="flex items-start gap-3">
         <Avatar userId={data.userId} />
         <div>
@@ -49,7 +53,7 @@ export default function PostItem({ data }: postItemProps) {
             <p
               onClick={goToUser}
               className="text-neutral-500 cursor-pointer hover:underline hidden md:block">
-              @{data.user.name}
+              @{data.user?.name}
             </p>
             <p className="text-neutral-500 text-sm">{createdAt} ago</p>
           </div>
@@ -64,8 +68,12 @@ export default function PostItem({ data }: postItemProps) {
             <div
               onClick={onLike}
               className="flex items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-white">
-              <AiOutlineLike size={20} color={isLiked()?'white':'blue'} />
-              <p>{data.likedId.length || 0}</p>
+              {isLiked ? (
+                <AiFillLike size={20} color="blue" />
+              ) : (
+                <AiOutlineLike size={20} color="white" />
+              )}
+              <p>{data.likedId.length}</p>
             </div>
           </div>
         </div>

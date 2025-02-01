@@ -9,6 +9,7 @@ import axios from "axios";
 import {usePosts} from "@/app/hooks/usePosts";
 
 interface formProps {
+  postId?:string,
   placeholder: string;
   isComment?: boolean;
 }

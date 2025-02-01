@@ -1,20 +1,22 @@
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import useCurrentUser from "./useCurrentUser"
 import { useClickStore } from "../store/store"
 import axios from "axios"
 import toast from "react-hot-toast"
 import usePost from "./usePost"
+import { usePosts } from "./usePosts"
 
-const useLike = (userPostId:string) =>{
-    const {currentUser,mutate:currentUserMutate} = useCurrentUser()
+const useLike = (userPostId:string,userId:string) =>{
+    const {currentUser} = useCurrentUser()
     const {post,mutate:userPostMutate} = usePost(userPostId)
+    const {mutate:mutateAllPosts} = usePosts(userId)
     const {toggle} = useClickStore()
 
-    const isLiked = useCallback(()=>{
+    const isLiked = useMemo(()=>{
         const list = post?.likedId || []
 
-        return list.includes(currentUser.id)
-    },[currentUser,post])
+        return list.includes(currentUser?.id)
+    },[currentUser?.id,post?.likedId])
 
     const toggleLiked = useCallback(async ()=>{
         if(!currentUser){
@@ -23,19 +25,19 @@ const useLike = (userPostId:string) =>{
 
         let updatePost
         try {
-            if(isLiked()){
+            if(isLiked){
                 updatePost = await axios.delete('api/like',{data:{userPostId}})
             }else{
                 updatePost = await axios.post('api/like',{userPostId})
             }
-            currentUserMutate()
+            mutateAllPosts()
             userPostMutate()
 
             toast.success("Success")
         } catch (error) {
             toast.error("Something went wrong")
         }
-    },[currentUser,toggle,isLiked,userPostId,currentUserMutate,userPostMutate])
+    },[currentUser,toggle,isLiked,userPostId,mutateAllPosts,userPostMutate])
 
     return {isLiked,toggleLiked}
 }

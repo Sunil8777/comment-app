@@ -10,7 +10,7 @@ export default function PostFeed({ userId }: postFeedProps) {
   
   return (
     <>
-      {Array.isArray(posts) && posts.map((post: Record<string, any>) => (
+      {posts.map((post: Record<string, any>) => (
         <PostItem key={post.id} data={post} />
       ))}
     </>

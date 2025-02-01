@@ -13,6 +13,14 @@ export async function GET(req:Request,{ params }: { params: { userPostId: string
         const findUserPostId  = await prisma.post.findUnique({
             where:{
                 id:userPostId 
+            },
+            include:{
+                user:true,
+                comments:{
+                    include:{
+                        user:true
+                    }
+                }
             }
         })
 
