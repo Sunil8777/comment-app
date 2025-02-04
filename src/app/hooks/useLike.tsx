@@ -25,9 +25,9 @@ const useLike = (userPostId:string,userId:string) =>{
 
         try {
             if(isLiked){
-                await axios.delete('api/like',{data:{userPostId}})
+                await axios.delete('/api/like',{data:{userPostId}})
             }else{
-                await axios.post('api/like',{userPostId})
+                await axios.post('/api/like',{userPostId})
             }
             mutateAllPosts()
             userPostMutate()

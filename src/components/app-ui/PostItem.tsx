@@ -12,8 +12,6 @@ export default function PostItem({ data,userId }: postItemProps) {
   const router = useRouter();
   const { isLiked, toggleLiked } = useLike(data.id,userId || "");
 
-  console.log(data.userId)
-
   const goToUser = useCallback(
     (e: any) => {
       e.stopPropagation();

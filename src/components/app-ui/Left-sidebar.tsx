@@ -17,7 +17,7 @@ export default function Leftsidebar() {
   const items = [
     {
       label: "Home",
-      href: "/",
+      href: "/dashboard",
       icon: BsHouseFill,
     },
     {

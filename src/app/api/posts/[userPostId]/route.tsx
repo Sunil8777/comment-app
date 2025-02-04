@@ -2,6 +2,7 @@ import prisma from '@/lib/prismadb'
 
 export async function GET(req:Request,{ params }: { params: { userPostId: string } }) {
     const {userPostId} = await params 
+    
     try {
         if(!userPostId){
             return Response.json({
@@ -19,6 +20,9 @@ export async function GET(req:Request,{ params }: { params: { userPostId: string
                 comments:{
                     include:{
                         user:true
+                    },
+                    orderBy:{
+                        createdAt:'desc'
                     }
                 }
             }

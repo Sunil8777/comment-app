@@ -1,5 +1,6 @@
 'use client'
 import usePost from "@/app/hooks/usePost";
+import CommentFeed from "@/components/app-ui/CommentFeed";
 import Form from "@/components/app-ui/Form";
 import Header from "@/components/app-ui/Header";
 import PostItem from "@/components/app-ui/PostItem";
@@ -10,11 +11,11 @@ import React from "react";
 export default function page() {
   const { postId } = useParams();
   const router = useRouter();
-  const { post: fetchedPost,isLoading } = usePost(postId as string);
+  const { data: fetchedPost,isLoading } = usePost(postId as string);
 
   if(isLoading || !fetchedPost){
     return(
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center h-full w-full">
             <Clipboard size={24}/>
         </div>
     )
@@ -24,6 +25,7 @@ export default function page() {
         <Header label="Tweet" showBackArrow />
       <PostItem data={fetchedPost} />
       <Form postId={postId as string} isComment placeholder="Tweet your reply"/>
+      <CommentFeed comments={fetchedPost?.comments}/>
     </div>
   );
 }

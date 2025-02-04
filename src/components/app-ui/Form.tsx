@@ -7,33 +7,37 @@ import Avatar from "./Avatar";
 import toast from "react-hot-toast";
 import axios from "axios";
 import {usePosts} from "@/app/hooks/usePosts";
+import usePost from "@/app/hooks/usePost";
 
 interface formProps {
   postId?:string,
   placeholder: string;
   isComment?: boolean;
 }
-export default function Form({ placeholder, isComment }: formProps) {
+export default function Form({postId, placeholder, isComment }: formProps) {
   const { toggle } = useClickStore();
   const { currentUser } = useCurrentUser();
   const { mutate: allUserPost } = usePosts();
+  const {mutate: mutateIndividualPost} = usePost(postId as string)
 
   const [userPost, setUserPost] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = useCallback(async () => {
+    const url = isComment? `/api/comments?postId=${postId}`:'/api/posts'
     try {
       setIsLoading(true);
-      await axios.post("api/posts", { userPost });
+      await axios.post(url, { userPost });
       setUserPost("");
       allUserPost();
+      mutateIndividualPost()
       toast.success("Done Tweet")
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
-  }, [allUserPost, userPost]);
+  }, [allUserPost, userPost,mutateIndividualPost]);
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
