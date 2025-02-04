@@ -30,10 +30,7 @@ export async function GET(req:Request,{ params }: { params: { userPostId: string
                 message: "Post not found"
             },{status:404})
         }
-        return Response.json({
-            success:true,
-            message: findUserPostId
-        },{status:200})
+        return Response.json(findUserPostId,{status:200})
     } catch (error) {
         console.error(error)
         return Response.json({

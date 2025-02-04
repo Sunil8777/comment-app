@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import prisma from '@/lib/prismadb'
 export async function POST(request: Request) {
   try {
     const { email, password, username, name } = await request.json();
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         success: false,
-        message: "unable to register",
+        message: error
       },
       {
         status: 500,

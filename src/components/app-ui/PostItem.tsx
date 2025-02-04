@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Avatar from "./Avatar";
 import { AiFillLike, AiOutlineLike, AiOutlineMessage } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -6,10 +6,13 @@ import { formatDistanceToNowStrict } from "date-fns";
 import useLike from "@/app/hooks/useLike";
 interface postItemProps {
   data: Record<string, any>;
+  userId?:string
 }
-export default function PostItem({ data }: postItemProps) {
+export default function PostItem({ data,userId }: postItemProps) {
   const router = useRouter();
-  const { isLiked, toggleLiked } = useLike(data.id, data.userId);
+  const { isLiked, toggleLiked } = useLike(data.id,userId || "");
+
+  console.log(data.userId)
 
   const goToUser = useCallback(
     (e: any) => {
@@ -73,7 +76,7 @@ export default function PostItem({ data }: postItemProps) {
               ) : (
                 <AiOutlineLike size={20} color="white" />
               )}
-              <p>{data.likedId.length}</p>
+              <p>{data.likedId.length }</p>
             </div>
           </div>
         </div>

@@ -6,12 +6,12 @@ interface postFeedProps {
   userId?: string;
 }
 export default function PostFeed({ userId }: postFeedProps) {
-  const { post: posts = [] } = usePosts(userId);
+  const { data: posts = [] } = usePosts(userId);
   
   return (
     <>
-      {posts.map((post: Record<string, any>) => (
-        <PostItem key={post.id} data={post} />
+      {Array.isArray(posts) &&  posts.map((post: Record<string, any>) => (
+        <PostItem key={post.id} data={post} userId={userId}/>
       ))}
     </>
   );

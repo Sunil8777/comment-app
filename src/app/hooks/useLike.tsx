@@ -8,7 +8,7 @@ import { usePosts } from "./usePosts"
 
 const useLike = (userPostId:string,userId:string) =>{
     const {currentUser} = useCurrentUser()
-    const {post,mutate:userPostMutate} = usePost(userPostId)
+    const {data:post,mutate:userPostMutate} = usePost(userPostId)
     const {mutate:mutateAllPosts} = usePosts(userId)
     const {toggle} = useClickStore()
 
@@ -23,12 +23,11 @@ const useLike = (userPostId:string,userId:string) =>{
             return toggle()
         }
 
-        let updatePost
         try {
             if(isLiked){
-                updatePost = await axios.delete('api/like',{data:{userPostId}})
+                await axios.delete('api/like',{data:{userPostId}})
             }else{
-                updatePost = await axios.post('api/like',{userPostId})
+                await axios.post('api/like',{userPostId})
             }
             mutateAllPosts()
             userPostMutate()
