@@ -26,6 +26,22 @@ export async function POST(req: Request) {
         }
       },
     });
+
+    await prisma.notification.create({
+      data:{
+        content:`${currentuser.username} Followed you`,
+        userId
+      }
+    })
+
+    await prisma.user.update({
+      where:{
+        id:userId
+      },data:{
+        hasNotification:true
+      }
+    })
+
     return Response.json(
       {
         success: true,

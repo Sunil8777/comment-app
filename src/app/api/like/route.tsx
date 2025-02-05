@@ -37,6 +37,21 @@ export async function POST(req: Request) {
       );
     }
 
+    await prisma.notification.create({
+      data:{
+        content:`${currentuser.username} Liked your tweet`,
+        userId:userPost.userId
+      }
+    })
+
+    await prisma.user.update({
+      where:{
+        id:userPost.userId
+      },data:{
+        hasNotification:true
+      }
+    })
+
     return Response.json({ userPost }, { status: 200 });
   } catch (error) {
     console.error(error);

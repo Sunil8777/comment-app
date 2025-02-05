@@ -36,7 +36,6 @@ export async function GET(req:Request,{ params }: { params: { userPostId: string
         }
         return Response.json(findUserPostId,{status:200})
     } catch (error) {
-        console.error(error)
         return Response.json({
             success:false,
             message:error

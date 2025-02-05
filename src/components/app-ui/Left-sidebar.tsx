@@ -22,13 +22,14 @@ export default function Leftsidebar() {
     },
     {
       label: "Notification",
-      href: "/notification",
+      href: "/dashboard/notifications",
       icon: BsBellFill,
-      auth:true
+      auth:true,
+      alert:currentUser?.hasNotification
     },
     {
       label: "Profile",
-      href: `dashboard/users/${currentUser?.id}`,
+      href: `/dashboard/users/${currentUser?.id}`,
       icon: FaUser,
       auth:true
     },
@@ -40,7 +41,7 @@ export default function Leftsidebar() {
                 <Sidebarlogo/>
                 {
                     items.map((item)=>(
-                        <Sidebaritem  key={item.href} href={item.href} icon={item.icon} label={item.label} auth={item.auth}/>
+                        <Sidebaritem  key={item.href} href={item.href} icon={item.icon} label={item.label} auth={item.auth} alert={item.alert}/>
                     )
                     )
                 }

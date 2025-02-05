@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/user/[userId]", "src/app/dashboard/users/[userId]"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/user/[userId]", "src/app/dashboard/users/[userId]", "src/app/dashboard/notifications"],
   "exclude": ["node_modules"]
 }
