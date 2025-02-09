@@ -3,13 +3,11 @@ import Leftsidebar from "@/components/app-ui/Left-sidebar";
 import Rightsidebar from "@/components/app-ui/Right-sidebar";
 import React from "react";
 import { useAuthStore, useClickStore } from "../store/store";
-import { SignIn } from "@/components/app-ui/Sign-in";
-import { SignUp } from "@/components/app-ui/Sign-up";
-import { EditModel } from "@/components/app-ui/EditModel";
+import { SignIn } from "@/components/auth/Sign-in";
+import { SignUp } from "@/components/auth/Sign-up";
 
 export default function dashBoardLayout({
   children,
-  session,
 }: Readonly<{
   children: React.ReactNode;
   session: any;

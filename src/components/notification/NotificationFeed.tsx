@@ -2,17 +2,26 @@ import useCurrentUser from '@/app/hooks/useCurrentUser'
 import useNotifications from '@/app/hooks/useNotifications'
 import React, { useEffect } from 'react'
 import { BsTwitter } from 'react-icons/bs'
+import { ClipLoader } from 'react-spinners'
 
 export default function NotificationFeed() {
-    const {currentUser,mutate: mutateCurrentUser} = useCurrentUser()
-    const {data: fetchedNotification=[],mutate} = useNotifications()
+    const {mutate: mutateCurrentUser} = useCurrentUser()
+    const {data: fetchedNotification=[],mutate,isLoading} = useNotifications()
 
     useEffect(()=>{
         mutateCurrentUser()
         mutate()
     },[mutateCurrentUser,mutate])
 
-    if(fetchedNotification.length===0){
+    if(isLoading){
+        return(
+          <div className='w-full h-screen flex justify-center items-center text-white'>
+            <ClipLoader size={50} color='white'/>
+        </div>
+        )
+    }
+
+    if(!isLoading && fetchedNotification.length===0){
         return(
             <div className='text-neutral-600 text-center p-6 text-xl'>No notifications</div>
         )

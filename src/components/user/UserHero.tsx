@@ -1,6 +1,6 @@
 import useUser from "@/app/hooks/useUser"
 import Image from "next/image"
-import Avatar from "./Avatar"
+import Avatar from "../app-ui/Avatar"
 
 interface UserHeroProps{
     userId:string

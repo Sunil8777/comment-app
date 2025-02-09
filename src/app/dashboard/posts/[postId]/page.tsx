@@ -1,9 +1,9 @@
 'use client'
 import usePost from "@/app/hooks/usePost";
-import CommentFeed from "@/components/app-ui/CommentFeed";
+import CommentFeed from "@/components/comment/CommentFeed";
 import Form from "@/components/app-ui/Form";
 import Header from "@/components/app-ui/Header";
-import PostItem from "@/components/app-ui/PostItem";
+import PostItem from "@/components/post/PostItem";
 import { Clipboard } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";

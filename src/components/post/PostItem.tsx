@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import Avatar from "./Avatar";
+import Avatar from "../app-ui/Avatar";
 import { AiFillLike, AiOutlineLike, AiOutlineMessage } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { formatDistanceToNowStrict } from "date-fns";

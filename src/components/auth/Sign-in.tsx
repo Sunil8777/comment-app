@@ -3,77 +3,61 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IoCloseSharp } from "react-icons/io5";
 import {useAuthStore, useClickStore} from "@/app/store/store";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
-  email: z.string(),
-  password: z
-    .string()
-    .min(2, "must contain 8 character")
-    .max(15, "maximum limit is 15 character"),
-  name: z
-    .string()
-    .min(3, "Atleast contain 3 character")
-    .max(15, "maximum limit is 15 character"),
-  username: z
-    .string()
-    .min(5, "atleast 5 character")
-    .max(15, "maximum 15 character"),
+  email: z.string().email("must be valid email"),
+  password: z.string().min(2,"must contain 8 character").max(15,"maximum limit is 15 character"),
 });
 
-export function SignUp() {
+export function SignIn() {
   const {toggle} = useClickStore()
   const {toggleAuth} = useAuthStore()
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      password: "",
-      name: "",
-      username: "",
+      password:""
     },
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    
     try {
-      await axios.post('api/register',values)
-      const {email,password} = values
+      const result = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        redirect:false
+      });
 
-      toast.success('Account created')
-
-      signIn('credentials',{
-        email,
-        password
-      },
-    )
-
-    toggle()
-
+      if (result?.error) {
+        toast.error('Invalid credentials');
+      } else {
+        toast.success('Successfully logged in');
+        toggle()
+      }
     } catch (error) {
-      toast.error('Something went wrong')
+      toast.error("Something went wrong");
     }
   }
   return (
-    <div className="flex justify-center items-center h-screen z-50 relative">
-      <div className="rounded-lg min-w-[30%] min-h-[43%] p-5 bg-red-300">
+    <div className="flex justify-center items-center h-screen ">
+      <div className="rounded-lg min-w-[30%] min-h-[37%] p-5 bg-red-300">
         <div className="mb-7 flex items-center justify-between">
-          <p className="font-semibold text-xl">Create an account</p>
+          <p className="font-semibold text-xl">Login</p>
           <IoCloseSharp size={20} onClick={toggle}/>
         </div>
         <Form {...form}>
@@ -85,30 +69,6 @@ export function SignUp() {
                 <FormItem>
                   <FormControl>
                     <Input placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="Username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,13 +92,13 @@ export function SignUp() {
               )}
             />
             <Button className="rounded-lg" type="submit">
-              Register
+              Sign in
             </Button>
           </form>
         </Form>
         <div className="flex mt-3 text-[14px]">
-            <p className="">Already have an account?</p>
-            <p onClick={toggleAuth} className="font-semibold text-white cursor-pointer">Log in</p>
+            <p className="">Don't have an account?</p>
+            <p onClick={toggleAuth} className="font-semibold text-white cursor-pointer">Sign up</p>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 'use client'
 import useUser from '@/app/hooks/useUser'
 import Header from '@/components/app-ui/Header'
-import PostFeed from '@/components/app-ui/PostFeed'
-import UserBio from '@/components/app-ui/UserBio'
-import UserHero from '@/components/app-ui/UserHero'
+import PostFeed from '@/components/post/PostFeed'
+import UserBio from '@/components/user/UserBio'
+import UserHero from '@/components/user/UserHero'
 import { useParams } from 'next/navigation'
 import {ClipLoader} from 'react-spinners'
 
@@ -13,7 +13,7 @@ export default function userProfile() {
   const {data:user,isLoading} = useUser(userId)
   const profileName  = user?.message?.user?.name
   
-  if(isLoading || !user){
+  if(!user || isLoading){
     return(
       <div className='min-w-[40%] h-full flex justify-center items-center'>
         <ClipLoader color='lightblue' size={50}/>

@@ -37,7 +37,10 @@ export async function GET(req: Response) {
       },
     });
 
-    return Response.json(allPost,{status:200})
+    return Response.json({
+        success:true,
+        message:allPost
+      },{status:200})
   } catch (error) {
     return Response.json({
       success:false,

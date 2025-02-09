@@ -8,7 +8,7 @@ export default function Rightsidebar() {
   const user = data?.message ? Object.values(data.message) : [];
 
   if (user?.length === 0) {
-    return null;
+    return <div className="min-w-[30%] border-x-[1px] border-neutral-800"></div>;
   }
   
   return (

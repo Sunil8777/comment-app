@@ -3,13 +3,21 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { FaFeather } from "react-icons/fa";
 import {useClickStore} from "@/app/store/store";
+import useCurrentUser from "@/app/hooks/useCurrentUser";
 
 
 export default function SideBarTweet() {
   const router = useRouter();
+  const {currentUser} = useCurrentUser()
   const {toggle} = useClickStore()
+
+  const handleClick = () =>{
+    if(!currentUser){
+      toggle()
+    }
+  }
   return (
-    <div onClick={toggle}>
+    <div onClick={handleClick}>
       <div className="mt-6 p-4 lg:hidden bg-sky-500 flex items-end justify-center rounded-full h-14 w-14 hover:bg-opacity-80 cursor-pointer transition">
         <FaFeather size={28} color="white" />
       </div>

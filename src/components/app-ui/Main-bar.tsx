@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Form from "./Form";
-import PostFeed from "./PostFeed";
+import PostFeed from "../post/PostFeed";
 
 export default function Mainbar() {
   return (
